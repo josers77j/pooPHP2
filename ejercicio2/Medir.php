@@ -46,7 +46,7 @@ class Medir{
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Mensaje : </h5>
-                        <?php $medir->medirTemperatura();?>
+                        <?php $medir->medirTemperatura(); ?>
                     </div>
                 </div>
             </div>
