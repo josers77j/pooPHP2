@@ -1,129 +1,200 @@
 <?php
+
+
 class Arma
 {
-    public function disparar()
+    protected $bala;
+
+    public function decrementar()
     {
-        echo "disparar";
+        if ($this->bala > 0) {
+            $this->bala--;
+        }
     }
-    public function recargar()
+
+    public function reiniciar()
     {
-        echo "recargar";
+        $this->bala = 8;
+    }
+
+    public function getBalas()
+    {
+        return $this->bala;
     }
 }
 
-class ArmaAssault extends Arma{
-  
-  public $disparos;
-  public function __construct($disparos)
-  {
-    $this->disparos = $disparos;
-  }
-  public function disparar(){
-      if ($this->disparos == 0) {
-        echo "¡Debes Recargar!";
-      }else{
-        $this->disparos--; 
-      }
-  }
-  public function recargar(){
-     $this->disparos = 32;    
-  }  
+class ArmaAssault extends Arma
+{
+    public function __construct($bala)
+    {
+        $this->bala = $bala;
+    }
 }
 
-$arma1 = new ArmaAssault(0);
+class ArmaSecondary extends Arma
+{
+    public function __construct($bala)
+    {
+        $this->bala = $bala;
+    }
+}
 
+session_start();
 
+// para la primer arma
+if (!isset($_SESSION['balasA1'])) {
+    $_SESSION['balasA1'] = new ArmaAssault(8);
+}
+
+if (isset($_POST['decrementarA1'])) {
+    if ($_SESSION['balasA1']->getBalas() > 0) {
+        $_SESSION['balasA1']->decrementar();
+    }
+}
+
+if (isset($_POST['reiniciarA1'])) {
+    if ($_SESSION['balasA1']->getBalas() == 0) {
+        $_SESSION['balasA1']->reiniciar();
+    }
+}
+
+//para la segunda arma
+if (!isset($_SESSION['balasA2'])) {
+    $_SESSION['balasA2'] = new ArmaSecondary(8);
+}
+
+if (isset($_POST['decrementarA2'])) {
+    if ($_SESSION['balasA2']->getBalas() > 0) {
+        $_SESSION['balasA2']->decrementar();
+    }
+}
+
+if (isset($_POST['reiniciarA2'])) {
+    if ($_SESSION['balasA2']->getBalas() == 0) {
+        $_SESSION['balasA2']->reiniciar();
+    }
+}
+
+//para la tercer arma
+if (!isset($_SESSION['balasA3'])) {
+    $_SESSION['balasA3'] = new ArmaSecondary(8);
+}
+
+if (isset($_POST['decrementarA3'])) {
+    if ($_SESSION['balasA3']->getBalas() > 0) {
+        $_SESSION['balasA3']->decrementar();
+    }
+}
+
+if (isset($_POST['reiniciarA3'])) {
+    if ($_SESSION['balasA3']->getBalas() == 0) {
+        $_SESSION['balasA3']->reiniciar();
+    }
+}
+
+//para la cuarta arma
+if (!isset($_SESSION['balasA4'])) {
+    $_SESSION['balasA4'] = new ArmaSecondary(8);
+}
+
+if (isset($_POST['decrementarA4'])) {
+    if ($_SESSION['balasA4']->getBalas() > 0) {
+        $_SESSION['balasA4']->decrementar();
+    }
+}
+
+if (isset($_POST['reiniciarA4'])) {
+    if ($_SESSION['balasA4']->getBalas() == 0) {
+        $_SESSION['balasA4']->reiniciar();
+    }
+}
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contador</title>
 
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-
 </head>
 
-<body class="bg-dark">
+<body>
     <?php include("../includes/menu.php"); ?>
-
     <div class="container">
-        <form action="index.php" method="post">
-            <div class="row">
-                <div class="col-3">
-                    <h1 class="text-white">arma 1</h1>
-                    <div class="row">
-                        <div class="col-6" style="height: 200px;">
-                            <img src="../img/arma1.png" style="width:200px" alt="">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary" name="recargarA1">Recargar</button>
-                            <input type="hidden" name="CantidadBalasA1" value="32">
-                            <button type="submit" class="btn btn-primary" name="dispararA1">Disparar</button>
-                            <p class="text-white">balas Restantes : 
-                            <?php
-                            if (isset($_POST["recargarA1"])) {
-                                $arma1->recargar();                            
-                            }else if(isset($_POST["dispararA1"])){
-                                $arma1->disparar();
-                            }
-                            ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <h1 class="text-white">arma 1</h1>
-                    <div class="row">
-                        <div class="col-6" style="height: 200px;">
-                            <img src="../img/arma2.png" style="width:200px" alt="">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary" name="recargarA2">Recargar</button>
-                            <button type="submit" class="btn btn-primary" name="dispararA2">Disparar</button>
-                            <p class="text-white">balas Restantes : </p>
-                            <p class="text-white">0</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <h1 class="text-white">arma 1</h1>
-                    <div class="row">
-                        <div class="col-6" style="height: 200px;">
-                            <img src="../img/arma3.png" style="width:200px" alt="">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary" name="recargarA3">Recargar</button>
-                            <button type="submit" class="btn btn-primary" name="dispararA3">Disparar</button>
-                            <p class="text-white">balas Restantes : </p>
-                            <p class="text-white">0</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <h1 class="text-white">arma 1</h1>
-                    <div class="row">
-                        <div class="col-6" style="height: 200px;">
-                            <img src="../img/arma4.png" style="width:200px" alt="">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary" name="recargarA4">Recargar</button>
-                            <button type="submit" class="btn btn-primary" name="dispararA4">Disparar</button>
-                            <p class="text-white">balas Restantes : </p>
-                            <p class="text-white">0</p>
-                        </div>
-                    </div>
-                </div>
-
+        <div class="row">
+            <div class="col-3" style="height: 100px;">
+                <img src="../img/arma1.png" style="width: 300px;" alt="">
+                <h1>Balas: <?php echo $_SESSION['balasA1']->getBalas(); ?></h1>
+                <?php if ($_SESSION['balasA1']->getBalas() > 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="decrementarA1" value="Disparar" class="btn btn-primary">
+                    </form>
+                <?php endif; ?>
+                <?php if ($_SESSION['balasA1']->getBalas() == 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="reiniciarA1" value="Recargar" class="btn btn-success">
+                    </form>
+                <?php endif; ?>
             </div>
-        </form>
+
+            <div class="col-3" style="height: 100px;">
+            <img src="../img/arma2.png" style="width: 200px; height:200px;" alt="">              
+                <h1>Contador: <?php echo $_SESSION['balasA2']->getBalas(); ?></h1>
+                <?php if ($_SESSION['balasA2']->getBalas() > 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="decrementarA2" value="Disparar" class="btn btn-primary">
+                    </form>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['balasA2']->getBalas() == 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="reiniciarA2" value="Recargar" class="btn btn-success">
+                    </form>
+                <?php endif; ?>
+            </div>
+
+            <div class="col-3" style="height: 100px;">
+            <img src="../img/arma3.png" style="width: 200px; height:200px;" alt="">              
+                <h1>Contador: <?php echo $_SESSION['balasA3']->getBalas(); ?></h1>
+                <?php if ($_SESSION['balasA3']->getBalas() > 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="decrementarA3" value="Disparar" class="btn btn-primary">
+                    </form>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['balasA3']->getBalas() == 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="reiniciarA3" value="Recargar" class="btn btn-success">
+                    </form>
+                <?php endif; ?>
+            </div>
+
+            <div class="col-3" style="height: 100px;">
+            <img src="../img/arma4.png" style="width: 200px; height:200px;" alt="">              
+                <h1>Contador: <?php echo $_SESSION['balasA4']->getBalas(); ?></h1>
+                <?php if ($_SESSION['balasA4']->getBalas() > 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="decrementarA4" value="Disparar" class="btn btn-primary">
+                    </form>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['balasA4']->getBalas() == 0) : ?>
+                    <form action="index.php" method="post">
+                        <input type="submit" name="reiniciarA4" value="Recargar" class="btn btn-success">
+                    </form>
+                <?php endif; ?>
+            </div>
+            
+
+        </div>
     </div>
-    <!-- Bootstrap JavaScript Libraries -->
+
+    <!-- Bootstrap JS v5.2.1 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
 
@@ -132,4 +203,3 @@ $arma1 = new ArmaAssault(0);
 </body>
 
 </html>
-
